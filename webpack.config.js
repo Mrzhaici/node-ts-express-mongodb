@@ -1,11 +1,16 @@
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const path = require("path");
-const nodeExternals = require("webpack-node-externals");
 const WebpackWatchedGlobEntries = require("webpack-watched-glob-entries-plugin");
+const nodeExternals = require("webpack-node-externals");
+const path = require("path");
+const dotenv = require("dotenv");
+const webpack = require('webpack');
+
+// Init the environment variable
+dotenv.config();
 
 module.exports = {
-  mode: "none",
-  devtool: false,
+  mode: process.env.NODE_ENV || "node",
+  devtool:
+    process.env.NODE_ENV == "development" ? "eval-cheap-source-map" : false,
   /**
    * Iterate through all the files that need to be packaged under the file
    * Reference: https://github.com/Milanzor/webpack-watched-glob-entries-plugin
@@ -20,6 +25,7 @@ module.exports = {
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "./dist"),
+    clean: true,
   },
   module: {
     rules: [
@@ -32,5 +38,11 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },
-  plugins: [new CleanWebpackPlugin()],
+  // watch: true,
+  plugins: [
+    // Remove the dist before packing
+    // new CleanWebpackPlugin(),
+    // Enable Hot Module Replacement (HMR)
+    new webpack.HotModuleReplacementPlugin()
+  ],
 };

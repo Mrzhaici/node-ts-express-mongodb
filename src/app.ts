@@ -1,14 +1,23 @@
 import express from 'express';
 import { Request, Response, NextFunction } from "express";
+import dotenv from 'dotenv';
+import bodyParser from "body-parser";
+
+dotenv.config();
 
 const app = express();
 
-app.set('port', process.env.PORT || 3001);
+console.log('process.env.PORT:', process.env.PORT);
+
+app.set('port', process.env.PORT || 3000);
+app.set('env', process.env.NODE_ENV || 'node');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
+  console.log('process.env.', process.env.NODE_ENV, process.env.PORT);
   res.send('hello world!');
 })
 
-app.listen(app.get('port'), () => {
-  console.log('启动成功...');
-})
+export default app;
