@@ -1,0 +1,8 @@
+import {Request, Response} from "express";
+
+export const index = (req: Request, res: Response) => {
+  // res.render("index", {
+  //   title: 'Home'
+  // });
+  console.log('home');
+};

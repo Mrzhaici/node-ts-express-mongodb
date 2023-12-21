@@ -3,6 +3,7 @@ const nodeExternals = require("webpack-node-externals");
 const path = require("path");
 const dotenv = require("dotenv");
 const webpack = require('webpack');
+const CopyPlugin = require('copy-webpack-plugin');
 
 // Init the environment variable
 dotenv.config();
@@ -40,9 +41,18 @@ module.exports = {
   },
   // watch: true,
   plugins: [
+    // Copies individual files or entire directories to the build directory
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'src/views'),
+          to: "views"
+        }
+      ]
+    })
     // Remove the dist before packing
     // new CleanWebpackPlugin(),
     // Enable Hot Module Replacement (HMR)
-    new webpack.HotModuleReplacementPlugin()
+    // new webpack.HotModuleReplacementPlugin()
   ],
 };
