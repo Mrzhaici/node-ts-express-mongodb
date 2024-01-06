@@ -5,9 +5,12 @@ export class User {
 
   }
 
-  static getLogin(req: Request, res: Response) {
+  static getLogin(req: Request, res: Response): void {
     if(req.user) {
       return res.redirect('/')
-    }
+    };
+    res.render('account/login', {
+      title: "Login",
+    })
   }
 }
